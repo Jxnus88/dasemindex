@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DaSeM · Gestión Integral para Centros Educativos, AMPA y Ayuntamientos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f5f6f4;
+    --bg-panel:#eef1ee;
+    --navy-deep:#1c313d;
+    --navy:#2c4a5c;
+    --navy-soft:#5b7d8d;
+    --sage:#6f9284;
+    --sage-soft:#a7c2b3;
+    --ink:#20313a;
+    --ink-soft:#5a6c72;
+    --line:rgba(28,49,61,0.11);
+    --glass:rgba(255,255,255,0.58);
+    --glass-strong:rgba(255,255,255,0.78);
+    --glass-border:rgba(255,255,255,0.6);
+    --shadow:0 20px 46px rgba(20,32,40,0.10);
+    --shadow-soft:0 8px 22px rgba(20,32,40,0.07);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    font-family:'IBM Plex Sans', sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 8% 0%, rgba(111,146,132,0.09), transparent 42%),
+      radial-gradient(circle at 96% 10%, rgba(44,74,92,0.10), transparent 40%),
+      var(--bg);
+    min-height:100vh;
+    line-height:1.55;
+    transition:background 0.5s ease;
+  }
+
+  /* ---------- Selector de fondo (azules / verdes suaves) ---------- */
+  body[data-bg-theme="azul"]{
+    background:
+      radial-gradient(circle at 10% 0%, rgba(91,125,141,0.16), transparent 45%),
+      radial-gradient(circle at 95% 15%, rgba(44,74,92,0.18), transparent 42%),
+      radial-gradient(circle at 50% 100%, rgba(167,194,179,0.10), transparent 50%),
+      linear-gradient(160deg, #eef3f5 0%, #e3edf1 100%);
+  }
+  body[data-bg-theme="verde"]{
+    background:
+      radial-gradient(circle at 8% 0%, rgba(111,146,132,0.20), transparent 45%),
+      radial-gradient(circle at 95% 10%, rgba(167,194,179,0.20), transparent 42%),
+      radial-gradient(circle at 50% 100%, rgba(44,74,92,0.08), transparent 50%),
+      linear-gradient(160deg, #eef4f0 0%, #e4efe7 100%);
+  }
+  body[data-bg-theme="mixto"]{
+    background:
+      radial-gradient(circle at 6% 5%, rgba(111,146,132,0.16), transparent 42%),
+      radial-gradient(circle at 96% 0%, rgba(44,74,92,0.16), transparent 40%),
+      radial-gradient(circle at 50% 100%, rgba(91,125,141,0.12), transparent 50%),
+      linear-gradient(150deg, #eef4f2 0%, #e6eef0 55%, #e9f1ec 100%);
+  }
+  body[data-bg-theme="petroleo"]{
+    background:
+      radial-gradient(circle at 12% 0%, rgba(45,98,102,0.18), transparent 45%),
+      radial-gradient(circle at 90% 20%, rgba(111,146,132,0.16), transparent 42%),
+      radial-gradient(circle at 50% 100%, rgba(44,74,92,0.10), transparent 50%),
+      linear-gradient(155deg, #e9f1f0 0%, #dcebe9 55%, #e2eeec 100%);
+  }
+  body[data-bg-theme="azul-profundo"]{
+    background:
+      radial-gradient(circle at 10% 0%, rgba(31,63,84,0.22), transparent 46%),
+      radial-gradient(circle at 92% 12%, rgba(61,110,140,0.18), transparent 42%),
+      radial-gradient(circle at 50% 100%, rgba(91,125,141,0.10), transparent 50%),
+      linear-gradient(160deg, #e6ecf1 0%, #d9e5ec 100%);
+  }
+  body[data-bg-theme="menta"]{
+    background:
+      radial-gradient(circle at 10% 0%, rgba(122,196,163,0.20), transparent 45%),
+      radial-gradient(circle at 92% 10%, rgba(167,194,179,0.22), transparent 42%),
+      radial-gradient(circle at 50% 100%, rgba(111,146,132,0.10), transparent 50%),
+      linear-gradient(160deg, #eaf7f0 0%, #ddf1e5 100%);
+  }
+  body[data-bg-theme="esmeralda"]{
+    background:
+      radial-gradient(circle at 8% 0%, rgba(20,90,80,0.20), transparent 45%),
+      radial-gradient(circle at 94% 15%, rgba(44,74,92,0.16), transparent 42%),
+      radial-gradient(circle at 50% 100%, rgba(111,146,132,0.14), transparent 50%),
+      linear-gradient(150deg, #e4f1ec 0%, #d8ecec 55%, #dceaf0 100%);
+  }
+  body[data-bg-theme="cielo-salvia"]{
+    background:
+      radial-gradient(circle at 12% 5%, rgba(91,125,141,0.20), transparent 45%),
+      radial-gradient(circle at 90% 0%, rgba(122,196,163,0.16), transparent 42%),
+      radial-gradient(circle at 50% 100%, rgba(45,98,102,0.10), transparent 50%),
+      linear-gradient(145deg, #e7eff4 0%, #e3f0ea 50%, #eaf5ef 100%);
+  }
+
+  .theme-switcher{
+    position:fixed;
+    right:16px;
+    bottom:16px;
+    z-index:1500;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  @media (min-width:721px){ .theme-switcher{right:22px;bottom:22px;} }
+
+  .theme-panel{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--glass-strong);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border-radius:100px;
+    padding:8px;
+    box-shadow:var(--shadow);
+    opacity:0;
+    transform:translateX(10px) scale(0.95);
+    pointer-events:none;
+    transition:opacity 0.25s ease, transform 0.25s ease;
+    max-width:calc(100vw - 100px);
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .theme-panel::-webkit-scrollbar{display:none;}
+  .theme-panel.open{
+    opacity:1;
+    transform:translateX(0) scale(1);
+    pointer-events:auto;
+  }
+
+  .theme-swatch{
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    border:2px solid transparent;
+    cursor:pointer;
+    position:relative;
+    flex-shrink:0;
+    transition:transform 0.2s ease, border-color 0.2s ease;
+  }
+  .theme-swatch:hover{transform:scale(1.1);}
+  .theme-swatch.active{border-color:var(--navy-deep);}
+  .theme-swatch[data-swatch="claro"]{background:linear-gradient(135deg,#f5f6f4,#eef1ee);}
+  .theme-swatch[data-swatch="azul"]{background:linear-gradient(135deg,#dbe6ea,#b9cdd6);}
+  .theme-swatch[data-swatch="verde"]{background:linear-gradient(135deg,#dcebe2,#b7d4c3);}
+  .theme-swatch[data-swatch="mixto"]{background:linear-gradient(135deg,#c9dce1,#c3ddce);}
+  .theme-swatch[data-swatch="petroleo"]{background:linear-gradient(135deg,#a9cbc9,#8fb9b3);}
+  .theme-swatch[data-swatch="azul-profundo"]{background:linear-gradient(135deg,#9fb8ca,#5f88a0);}
+  .theme-swatch[data-swatch="menta"]{background:linear-gradient(135deg,#c9ecd8,#9dd6b6);}
+  .theme-swatch[data-swatch="esmeralda"]{background:linear-gradient(135deg,#a6d9c6,#7fb8c9);}
+  .theme-swatch[data-swatch="cielo-salvia"]{background:linear-gradient(135deg,#bcd6de,#a9d3bb);}
+
+  .theme-toggle-btn{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    background:linear-gradient(135deg, var(--navy-deep), var(--sage));
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:var(--shadow);
+    font-size:1.2rem;
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+    flex-shrink:0;
+  }
+  .theme-toggle-btn:hover{transform:translateY(-2px) rotate(15deg);box-shadow:0 16px 34px rgba(20,32,40,0.28);}
+
+  h1,h2,h3,.logo-text,.doc-title{font-family:'Newsreader', serif;}
+
+  a{text-decoration:none;color:inherit;}
+  ul{list-style:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  img{display:block;max-width:100%;}
+
+  .container{
+    width:100%;max-width:1200px;margin:0 auto;
+    padding:0 24px;
+    padding-left:max(24px, env(safe-area-inset-left));
+    padding-right:max(24px, env(safe-area-inset-right));
+  }
+  @media (min-width:640px){
+    .container{padding-left:max(32px, env(safe-area-inset-left));padding-right:max(32px, env(safe-area-inset-right));}
+  }
+  @media (min-width:1024px){
+    .container{padding-left:max(40px, env(safe-area-inset-left));padding-right:max(40px, env(safe-area-inset-right));}
+  }
+
+  /* ---------- Navbar (mobile-first) ---------- */
+  .navbar{
+    position:fixed;top:0;left:0;right:0;z-index:1000;
+    background:transparent;
+    border-bottom:1px solid var(--line);
+  }
+  .navbar::before{
+    content:"";
+    position:absolute;inset:0;
+    z-index:-1;
+    background:var(--glass-strong);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px;gap:12px;}
+
+  .logo{display:flex;align-items:center;gap:8px;min-width:0;flex-shrink:0;}
+  .logo-mark{
+    width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(150deg, var(--navy-deep), var(--sage));
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-family:'Newsreader',serif;font-weight:700;font-size:0.98rem;
+    flex-shrink:0;
+  }
+  .logo-text{font-size:1.12rem;font-weight:600;color:var(--navy-deep);letter-spacing:0.2px;white-space:nowrap;}
+  .logo-text span{color:var(--sage);}
+
+  /* Nav de escritorio: en línea dentro del navbar, oculto hasta que hay sitio real (mobile-first) */
+  .nav-links-desktop{display:none;}
+
+  /* Drawer móvil: FUERA del navbar en el DOM (hermano a nivel de body), así su z-index
+     compite de verdad contra el overlay y nunca queda atrapado bajo el contexto de apilamiento
+     que crea el .navbar (position:fixed ya genera su propio stacking context). */
+  .nav-links{
+    position:fixed;top:0;right:0;height:100vh;width:min(82vw,320px);
+    background:#ffffff;
+    display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+    gap:22px;padding:40px 32px;
+    transform:translateX(100%);
+    transition:transform 0.3s ease;
+    border-left:1px solid var(--line);
+    z-index:2000;
+    box-shadow:-10px 0 30px rgba(20,32,40,0.12);
+  }
+  .nav-links.active{transform:translateX(0);}
+
+  .nav-link{
+    font-size:1rem;font-weight:500;color:var(--ink);
+    position:relative;padding:4px 0;transition:color 0.2s ease;
+  }
+  .nav-link::after{
+    content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;
+    background:var(--sage);transition:width 0.25s ease;
+  }
+  .nav-link:hover{color:var(--navy-deep);}
+  .nav-link:hover::after{width:100%;}
+
+  .cta-btn{
+    background:linear-gradient(135deg, var(--navy-deep), var(--navy));
+    color:#fff;padding:11px 18px;border-radius:9px;
+    font-weight:600;font-size:0.82rem;
+    box-shadow:0 8px 18px rgba(28,49,61,0.22);
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+    white-space:nowrap;
+  }
+  .cta-btn:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(28,49,61,0.3);}
+
+  /* El hamburger es visible por defecto (mobile-first) */
+  .hamburger{display:flex;flex-direction:column;gap:5px;z-index:1100;padding:6px;flex-shrink:0;}
+  .hamburger span{width:22px;height:2px;border-radius:2px;background:var(--navy-deep);transition:all 0.3s ease;}
+  .hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .hamburger.active span:nth-child(2){opacity:0;}
+  .hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  /* A partir de escritorio grande (tablets grandes incluidas fuera): navegación en línea real,
+     el drawer móvil deja de usarse por completo. */
+  @media (min-width:1200px){
+    .logo-mark{width:38px;height:38px;font-size:1.05rem;}
+    .logo-text{font-size:1.28rem;}
+    .nav-links-desktop{
+      display:flex;flex-direction:row;align-items:center;gap:22px;
+    }
+    .nav-links-desktop .nav-link{font-size:0.87rem;color:var(--ink-soft);}
+    .nav-links-desktop .cta-btn{padding:10px 18px;font-size:0.82rem;}
+    .nav-links{display:none;}
+    .nav-overlay{display:none !important;}
+    .hamburger{display:none;}
+  }
+
+
+  /* ---------- Hero (mobile-first) ---------- */
+  .hero{padding:110px 0 44px;position:relative;}
+  .hero-inner{display:grid;grid-template-columns:1fr;gap:36px;align-items:center;}
+  @media (min-width:900px){
+    .hero{padding:150px 0 60px;}
+    .hero-inner{grid-template-columns:1.1fr 0.9fr;gap:54px;}
+  }
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--glass);border:1px solid var(--line);
+    padding:7px 16px;border-radius:100px;
+    font-size:0.76rem;font-weight:600;letter-spacing:0.4px;
+    color:var(--navy-deep);margin-bottom:22px;
+  }
+  .eyebrow::before{content:"●";color:var(--sage);font-size:0.6rem;}
+
+  .hero h1{
+    font-size:clamp(1.95rem, 3.4vw, 2.95rem);
+    font-weight:600;line-height:1.24;color:var(--navy-deep);margin-bottom:18px;
+  }
+  .hero h1 em{font-style:normal;color:var(--sage);}
+
+  .hero p{font-size:1.03rem;color:var(--ink-soft);max-width:520px;margin-bottom:30px;line-height:1.75;}
+
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+
+  .btn-primary-lg{
+    background:linear-gradient(135deg, var(--navy-deep), var(--navy));
+    padding:14px 26px;border-radius:11px;font-weight:600;color:#fff;font-size:0.94rem;
+    box-shadow:0 10px 24px rgba(28,49,61,0.24);
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-primary-lg:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(28,49,61,0.3);}
+
+  .btn-secondary{
+    background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(8px);
+    padding:14px 24px;border-radius:11px;font-weight:600;font-size:0.94rem;color:var(--navy-deep);
+    transition:background 0.2s ease, transform 0.2s ease;
+  }
+  .btn-secondary:hover{background:var(--glass-strong);transform:translateY(-2px);}
+
+  /* Hero visual: photo + floating dossier card (signature element) */
+  .hero-visual{position:relative;}
+  .hero-photo{
+    border-radius:20px;overflow:hidden;box-shadow:var(--shadow);
+    border:1px solid var(--glass-border);aspect-ratio:4/4.6;
+  }
+  .hero-photo img{width:100%;height:100%;object-fit:cover;}
+  .hero-photo::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(28,49,61,0) 55%, rgba(20,34,42,0.5) 100%);
+  }
+
+  .dossier-float{
+    position:static;
+    width:100%;
+    margin-top:16px;
+    background:var(--glass-strong);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-radius:14px;
+    box-shadow:var(--shadow);
+    padding:18px;
+    z-index:3;
+  }
+  @media (min-width:900px){
+    .dossier-float{position:absolute;left:-34px;bottom:-30px;width:230px;margin-top:0;}
+  }
+  .dossier-float .df-head{
+    display:flex;align-items:center;gap:8px;margin-bottom:10px;
+    font-size:0.72rem;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;color:var(--sage);
+  }
+  .dossier-float .df-head::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--sage);}
+  .dossier-float h4{font-size:0.98rem;font-weight:600;color:var(--navy-deep);margin-bottom:6px;}
+  .dossier-float p{font-size:0.78rem;color:var(--ink-soft);line-height:1.5;}
+  .dossier-float .df-line{height:1px;background:var(--line);margin:12px 0;}
+  .dossier-float .df-foot{font-size:0.7rem;color:var(--ink-soft);display:flex;justify-content:space-between;}
+
+  /* ---------- Process strip (signature secondary element, mobile-first) ---------- */
+  .process{margin-top:56px;}
+  .process-grid{
+    display:grid;grid-template-columns:1fr;gap:0;
+    position:relative;
+  }
+  .process-step{
+    background:var(--glass);border:1px solid var(--line);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    padding:24px 22px;position:relative;
+    border-radius:0;border-bottom:none;
+  }
+  .process-step:first-child{border-radius:14px 14px 0 0;}
+  .process-step:last-child{border-radius:0 0 14px 14px;border-bottom:1px solid var(--line);}
+  .process-step .p-num{
+    font-family:'Newsreader',serif;font-size:1.5rem;font-weight:700;color:var(--sage);display:block;margin-bottom:8px;
+  }
+  .process-step h4{font-size:1.02rem;font-weight:600;color:var(--navy-deep);margin-bottom:8px;}
+  .process-step p{font-size:0.86rem;color:var(--ink-soft);line-height:1.6;}
+
+  @media (min-width:900px){
+    .process{margin-top:96px;}
+    .process-grid{grid-template-columns:repeat(3,1fr);}
+    .process-step{border-radius:0;border-bottom:1px solid var(--line);border-right:none;}
+    .process-step:first-child{border-radius:14px 0 0 14px;}
+    .process-step:last-child{border-radius:0 14px 14px 0;}
+    .process-step:not(:last-child){border-right:none;}
+  }
+
+  /* ---------- Sections ---------- */
+  .section{padding:100px 0;}
+  .section-alt{background:var(--bg-panel);}
+
+  .section-head{max-width:680px;margin:0 auto 50px;text-align:center;}
+  .section-head .tag{
+    display:inline-block;font-size:0.76rem;font-weight:700;letter-spacing:1.4px;
+    text-transform:uppercase;color:var(--sage);margin-bottom:12px;
+  }
+  .section-head h2{font-size:clamp(1.65rem, 2.7vw, 2.25rem);font-weight:600;color:var(--navy-deep);margin-bottom:14px;}
+  .section-head p{color:var(--ink-soft);font-size:0.99rem;line-height:1.75;}
+
+  /* ---------- Cards ---------- */
+  .cards-grid{display:grid;grid-template-columns:1fr;gap:22px;}
+  @media (min-width:640px){ .cards-grid{grid-template-columns:1fr 1fr;gap:24px;} }
+  @media (min-width:1020px){ .cards-grid{grid-template-columns:repeat(3,1fr);gap:26px;} }
+
+  .card{
+    background:var(--glass);border:1px solid var(--glass-border);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-radius:16px;overflow:hidden;box-shadow:var(--shadow-soft);
+    transition:transform 0.3s ease, box-shadow 0.3s ease;
+    display:flex;flex-direction:column;
+  }
+  .card:hover{transform:translateY(-6px);box-shadow:var(--shadow);}
+
+  .card-img{height:196px;overflow:hidden;}
+  .card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;}
+  .card:hover .card-img img{transform:scale(1.06);}
+
+  .card-body{padding:26px;display:flex;flex-direction:column;flex:1;}
+  .card-body .pill{
+    align-self:flex-start;font-size:0.68rem;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;
+    padding:5px 12px;border-radius:100px;margin-bottom:14px;
+  }
+  .pill-camp{background:rgba(111,146,132,0.15);color:var(--sage);}
+  .pill-extra{background:rgba(44,74,92,0.13);color:var(--navy);}
+  .pill-dance{background:rgba(91,125,141,0.16);color:var(--navy-deep);}
+
+  .card-body h3{font-size:1.16rem;font-weight:600;color:var(--navy-deep);margin-bottom:12px;}
+
+  .benefit-list{margin-bottom:20px;flex:1;}
+  .benefit-list li{
+    font-size:0.87rem;color:var(--ink-soft);line-height:1.6;
+    padding:5px 0 5px 20px;position:relative;
+  }
+  .benefit-list li::before{
+    content:"✓";position:absolute;left:0;top:5px;color:var(--sage);font-weight:700;font-size:0.8rem;
+  }
+
+  .card-btn{
+    align-self:flex-start;background:transparent;border:1.5px solid var(--navy-deep);
+    padding:10px 18px;border-radius:9px;font-weight:600;font-size:0.83rem;color:var(--navy-deep);
+    transition:background 0.2s ease, color 0.2s ease;
+  }
+  .card-btn:hover{background:var(--navy-deep);color:#fff;}
+
+  /* ---------- Sobre nosotros ---------- */
+  .about-grid{display:grid;grid-template-columns:1fr;gap:32px;align-items:center;}
+  @media (min-width:900px){ .about-grid{grid-template-columns:0.85fr 1.15fr;gap:52px;} }
+  .about-photo{border-radius:18px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--glass-border);aspect-ratio:4/3.3;max-width:460px;margin:0 auto;}
+  @media (min-width:900px){ .about-photo{max-width:none;margin:0;} }
+  .about-photo img{width:100%;height:100%;object-fit:cover;}
+  .about-text .tag{
+    display:inline-block;font-size:0.76rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;
+    color:var(--sage);margin-bottom:12px;
+  }
+  .about-text h2{font-size:clamp(1.6rem, 2.6vw, 2.1rem);font-weight:600;color:var(--navy-deep);margin-bottom:16px;}
+  .about-text p{color:var(--ink-soft);font-size:0.98rem;line-height:1.8;margin-bottom:18px;}
+  .about-checks{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+  @media (min-width:520px){ .about-checks{grid-template-columns:1fr 1fr;gap:12px 24px;} }
+  .about-checks li{
+    font-size:0.88rem;color:var(--ink);font-weight:500;padding-left:22px;position:relative;
+  }
+  .about-checks li::before{content:"✓";position:absolute;left:0;color:var(--sage);font-weight:700;}
+
+  /* ---------- Modal (Dossier) ---------- */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(20,34,42,0.4);backdrop-filter:blur(4px);
+    display:none;align-items:center;justify-content:center;z-index:2000;padding:20px;
+  }
+  .modal-overlay.active{display:flex;}
+
+  .modal{
+    background:var(--glass-strong);border:1px solid var(--glass-border);
+    backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+    border-radius:18px;box-shadow:var(--shadow);
+    max-width:580px;width:100%;max-height:88vh;overflow-y:auto;
+    position:relative;animation:modalIn 0.3s ease;
+  }
+  @keyframes modalIn{from{opacity:0;transform:translateY(16px) scale(0.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+
+  .modal-img{height:180px;overflow:hidden;border-radius:18px 18px 0 0;position:relative;}
+  .modal-img img{width:100%;height:100%;object-fit:cover;}
+  .doc-badge{
+    position:absolute;left:20px;bottom:-16px;
+    background:var(--navy-deep);color:#fff;font-size:0.7rem;font-weight:700;
+    letter-spacing:0.6px;text-transform:uppercase;padding:7px 14px;border-radius:8px;
+    box-shadow:var(--shadow-soft);
+  }
+
+  .modal-content{padding:34px 32px 30px;}
+  .doc-title{font-size:1.35rem;color:var(--navy-deep);margin-bottom:4px;}
+  .modal-content .modal-sub{color:var(--sage);font-size:0.8rem;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;display:block;margin-bottom:20px;}
+
+  .doc-section{margin-bottom:18px;}
+  .doc-section .doc-label{
+    font-size:0.72rem;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;
+    color:var(--navy);margin-bottom:6px;display:block;
+  }
+  .doc-section p{color:var(--ink-soft);font-size:0.92rem;line-height:1.7;}
+  .doc-section ul li{
+    color:var(--ink);font-size:0.89rem;padding:6px 0;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:9px;
+  }
+  .doc-section ul li::before{content:"—";color:var(--sage);font-weight:700;}
+
+  .modal-close{
+    position:absolute;top:16px;right:16px;z-index:3;width:34px;height:34px;border-radius:50%;
+    background:var(--glass-strong);border:1px solid var(--glass-border);color:var(--navy-deep);
+    display:flex;align-items:center;justify-content:center;font-size:1rem;
+    transition:background 0.2s ease, color 0.2s ease;
+  }
+  .modal-close:hover{background:var(--navy-deep);color:#fff;}
+
+  .modal-cta{
+    display:block;text-align:center;width:100%;padding:13px;border-radius:11px;
+    background:linear-gradient(135deg, var(--navy-deep), var(--navy));color:#fff;font-weight:600;margin-top:6px;
+  }
+
+  /* ---------- Contact ---------- */
+  .contact-wrap{
+    background:var(--glass);border:1px solid var(--glass-border);
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    border-radius:22px;box-shadow:var(--shadow);padding:46px;max-width:780px;margin:0 auto;
+  }
+
+  .segment-toggle{display:flex;gap:10px;margin-bottom:26px;background:rgba(28,49,61,0.05);padding:6px;border-radius:11px;flex-wrap:wrap;}
+  .segment-btn{
+    flex:1;min-width:140px;padding:11px;border-radius:8px;font-weight:600;font-size:0.85rem;
+    color:var(--ink-soft);transition:background 0.2s ease, color 0.2s ease;
+  }
+  .segment-btn.active{background:var(--navy-deep);color:#fff;}
+
+  .form-row{display:grid;grid-template-columns:1fr;gap:0;}
+  @media (min-width:640px){ .form-row{grid-template-columns:1fr 1fr;gap:18px;} }
+  .field{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;}
+  .field label{font-size:0.83rem;font-weight:600;color:var(--ink);}
+  .field input,.field select,.field textarea{
+    background:rgba(255,255,255,0.72);border:1px solid var(--line);border-radius:9px;
+    padding:12px 14px;color:var(--ink);font-family:inherit;font-size:0.93rem;outline:none;
+    transition:border 0.2s ease, background 0.2s ease;
+  }
+  .field input::placeholder,.field textarea::placeholder{color:#8a9aa1;}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--navy-soft);background:#fff;}
+  .field.error input,.field.error select,.field.error textarea{border-color:#bd6e5f;}
+  .field .error-msg{font-size:0.77rem;color:#bd6e5f;display:none;}
+  .field.error .error-msg{display:block;}
+
+  .submit-btn{
+    width:100%;padding:15px;border-radius:11px;
+    background:linear-gradient(135deg, var(--navy-deep), var(--navy));color:#fff;font-weight:600;font-size:1rem;
+    box-shadow:0 10px 24px rgba(28,49,61,0.24);transition:transform 0.2s ease;
+  }
+  .submit-btn:hover{transform:translateY(-2px);}
+
+  .success-msg{
+    display:none;align-items:center;gap:12px;
+    background:rgba(111,146,132,0.14);border:1px solid rgba(111,146,132,0.4);color:#33544a;
+    padding:16px 20px;border-radius:13px;margin-top:18px;font-weight:500;font-size:0.9rem;
+  }
+  .success-msg.show{display:flex;}
+
+  /* ---------- Footer ---------- */
+  footer{padding:42px 0 32px;border-top:1px solid var(--line);background:var(--glass);}
+  .footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  footer .logo-text{font-size:1.08rem;}
+  footer p{color:var(--ink-soft);font-size:0.84rem;}
+
+  /* ---------- Responsive extra ---------- */
+  .contact-wrap{padding:26px 20px;}
+  @media (min-width:640px){ .contact-wrap{padding:46px;} }
+
+  .footer-inner{flex-direction:column;text-align:center;}
+  @media (min-width:640px){ .footer-inner{flex-direction:row;text-align:left;} }
+
+  /* Overlay claro y translúcido: nunca oscurece la pantalla al abrir el menú */
+  .nav-overlay{
+    display:none;position:fixed;inset:0;
+    background:rgba(255,255,255,0.6);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    z-index:1040;
+  }
+  .nav-overlay.active{display:block;}
+
+  @media (prefers-reduced-motion: reduce){
+    .card, .modal, .cta-btn, .btn-primary-lg{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="#inicio" class="logo">
+      <span class="logo-mark">D</span>
+      <span class="logo-text">DaSeM<span>.</span></span>
+    </a>
+    <div class="nav-links-desktop">
+      <a href="#inicio" class="nav-link">Inicio</a>
+      <a href="#servicios" class="nav-link">Servicios AMPA/Colegios</a>
+      <a href="#baile" class="nav-link">Escuela de Baile</a>
+      <a href="#nosotros" class="nav-link">Sobre Nosotros</a>
+      <a href="#contacto" class="nav-link">Contacto</a>
+      <a href="#contacto" class="cta-btn">Solicitar Propuesta</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="nav-overlay" id="navOverlay"></div>
+<div class="nav-links" id="navLinks">
+  <a href="#inicio" class="nav-link">Inicio</a>
+  <a href="#servicios" class="nav-link">Servicios AMPA/Colegios</a>
+  <a href="#baile" class="nav-link">Escuela de Baile</a>
+  <a href="#nosotros" class="nav-link">Sobre Nosotros</a>
+  <a href="#contacto" class="nav-link">Contacto</a>
+  <a href="#contacto" class="cta-btn">Solicitar Propuesta</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <span class="eyebrow">Gestión integral para el ámbito educativo</span>
+        <h1>Gestión integral y <em>confianza</em> para Centros Educativos y AMPA</h1>
+        <p>DaSeM coorganiza y gestiona campamentos de verano, actividades extraescolares y formación en danza en convenio directo con AMPA, colegios y ayuntamientos, con la solvencia y la trazabilidad documental que exige el ámbito institucional.</p>
+        <div class="hero-actions">
+          <a href="#contacto" class="btn-primary-lg">Solicitar presupuesto</a>
+          <a href="#servicios" class="btn-secondary">Ver servicios</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-photo">
+          <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=900&q=80" alt="Monitor profesional coordinando una actividad grupal con alumnado">
+        </div>
+        <div class="dossier-float">
+          <span class="df-head">Dossier técnico</span>
+          <h4>Programa Extraescolar 2026-27</h4>
+          <p>Metodología, ratios de supervisión y memoria justificativa para AMPA y ayuntamiento.</p>
+          <div class="df-line"></div>
+          <div class="df-foot"><span>DaSeM · Ref. 0426</span><span>PDF · 12 pág.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="process">
+      <div class="process-grid">
+        <div class="process-step">
+          <span class="p-num">01</span>
+          <h4>Diagnóstico y propuesta</h4>
+          <p>Analizamos las necesidades del centro o del AMPA y elaboramos una propuesta a medida con presupuesto cerrado.</p>
+        </div>
+        <div class="process-step">
+          <span class="p-num">02</span>
+          <h4>Convenio de colaboración</h4>
+          <p>Formalizamos el convenio con el colegio, el AMPA o el ayuntamiento, incluyendo seguros y protocolos de seguridad.</p>
+        </div>
+        <div class="process-step">
+          <span class="p-num">03</span>
+          <h4>Ejecución y seguimiento</h4>
+          <p>Coordinamos el equipo de monitores y entregamos informes periódicos de asistencia y memoria justificativa.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section class="section" id="servicios">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag">Servicios para AMPA y colegios</span>
+      <h2>Programas gestionados en convenio directo con tu centro</h2>
+      <p>Diseñamos e implementamos la oferta de campamentos y extraescolares en coordinación permanente con la dirección del centro y la junta directiva del AMPA.</p>
+    </div>
+
+    <div class="cards-grid">
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1476234251651-f353703a034d?auto=format&fit=crop&w=700&q=80" alt="Grupo de alumnado en actividad organizada al aire libre durante un campamento"></div>
+        <div class="card-body">
+          <span class="pill pill-camp">Campamentos</span>
+          <h3>Campamentos de Verano</h3>
+          <ul class="benefit-list">
+            <li>Coorganización directa con AMPA y ayuntamientos</li>
+            <li>Gestión de inscripciones, listas de espera y becas</li>
+            <li>Seguro de responsabilidad civil incluido</li>
+            <li>Memoria justificativa para subvenciones municipales</li>
+          </ul>
+          <button class="card-btn" data-modal="campamentos">Ver Programa y Metodología</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=700&q=80" alt="Alumnado trabajando con material de robótica educativa en el aula"></div>
+        <div class="card-body">
+          <span class="pill pill-extra">Extraescolares</span>
+          <h3>Actividades Extraescolares</h3>
+          <ul class="benefit-list">
+            <li>Catálogo curricular alineado con el proyecto educativo</li>
+            <li>Personal docente y monitor titulado y coordinado</li>
+            <li>Facturación centralizada para el AMPA o el centro</li>
+            <li>Informes de asistencia y evolución del alumnado</li>
+          </ul>
+          <button class="card-btn" data-modal="extraescolares">Ver Programa y Metodología</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=700&q=80" alt="Alumnado practicando deporte en equipo en el patio del colegio"></div>
+        <div class="card-body">
+          <span class="pill pill-camp">Convenios</span>
+          <h3>Gestión Integral de Convenios</h3>
+          <ul class="benefit-list">
+            <li>Un único interlocutor para todo el programa anual</li>
+            <li>Adaptación a la normativa autonómica vigente</li>
+            <li>Revisión y renovación anual del convenio</li>
+            <li>Atención directa a la junta del AMPA</li>
+          </ul>
+          <button class="card-btn" data-modal="convenios">Ver Programa y Metodología</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ESCUELA DE BAILE -->
+<section class="section section-alt" id="baile">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag">Escuela de baile · Línea independiente</span>
+      <h2>Formación en danza con metodología profesional</h2>
+      <p>Nuestra academia de danza funciona como una línea propia dentro de DaSeM, con clases estructuradas por niveles para todas las edades en un estudio equipado según los estándares del sector.</p>
+    </div>
+
+    <div class="cards-grid">
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=700&q=80" alt="Clase de ballet clásico en un estudio de danza limpio y luminoso"></div>
+        <div class="card-body">
+          <span class="pill pill-dance">Clásico</span>
+          <h3>Ballet</h3>
+          <ul class="benefit-list">
+            <li>Técnica clásica progresiva por niveles</li>
+            <li>Profesorado titulado en danza clásica</li>
+            <li>Evaluación periódica del progreso</li>
+            <li>Muestra pública de fin de curso</li>
+          </ul>
+          <button class="card-btn" data-modal="ballet">Ver Programa y Metodología</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=700&q=80" alt="Bailarines ensayando una coreografía de danza contemporánea en estudio"></div>
+        <div class="card-body">
+          <span class="pill pill-dance">Contemporáneo</span>
+          <h3>Danza Contemporánea</h3>
+          <ul class="benefit-list">
+            <li>Técnica corporal y expresión escénica</li>
+            <li>Grupos reducidos por nivel de experiencia</li>
+            <li>Enfoque en creatividad y composición</li>
+            <li>Muestra abierta a familias</li>
+          </ul>
+          <button class="card-btn" data-modal="contemporaneo">Ver Programa y Metodología</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=700&q=80" alt="Grupo ensayando una coreografía de danza urbana en estudio"></div>
+        <div class="card-body">
+          <span class="pill pill-dance">Urbano</span>
+          <h3>Danza Urbana</h3>
+          <ul class="benefit-list">
+            <li>Coreografías renovadas cada trimestre</li>
+            <li>Trabajo de ritmo, coordinación y equipo</li>
+            <li>Participación en el festival anual</li>
+            <li>Grupos organizados por edad y nivel</li>
+          </ul>
+          <button class="card-btn" data-modal="urbano">Ver Programa y Metodología</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE NOSOTROS -->
+<section class="section" id="nosotros">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-photo">
+        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80" alt="Equipo de monitores profesionales coordinando una actividad educativa">
+      </div>
+      <div class="about-text">
+        <span class="tag">Sobre nosotros</span>
+        <h2>Un equipo especializado en gestión educativa institucional</h2>
+        <p>DaSeM nace para dar respuesta a la necesidad de colegios, AMPA y ayuntamientos de contar con un gestor único, solvente y con experiencia demostrable en la coordinación de programas extraescolares, campamentos y formación en danza.</p>
+        <p>Trabajamos bajo convenio, con protocolos de seguridad auditados y reporting periódico, para que cada centro y cada junta de AMPA tenga visibilidad completa sobre el desarrollo del programa.</p>
+        <ul class="about-checks">
+          <li>Convenios activos con centros y AMPA</li>
+          <li>Personal con titulación en tiempo libre</li>
+          <li>Seguros de responsabilidad civil</li>
+          <li>Reporting periódico y memoria anual</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="section section-alt" id="contacto">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag">Contacto</span>
+      <h2>Solicita tu propuesta o dossier técnico</h2>
+      <p>Indícanos si nos escribes en representación de un AMPA, un colegio o ayuntamiento, o como particular, y te enviaremos la información y el presupuesto correspondiente en menos de 48h laborables.</p>
+    </div>
+
+    <form class="contact-wrap" id="contactForm" novalidate>
+
+      <div class="segment-toggle" role="tablist">
+        <button type="button" class="segment-btn active" data-segment="ampa">Representante de AMPA</button>
+        <button type="button" class="segment-btn" data-segment="institucion">Colegio / Ayuntamiento</button>
+        <button type="button" class="segment-btn" data-segment="particular">Particular</button>
+      </div>
+      <input type="hidden" id="segmento" value="ampa">
+
+      <div class="form-row">
+        <div class="field" id="field-nombre">
+          <label for="nombre">Nombre y apellidos</label>
+          <input type="text" id="nombre" placeholder="Nombre completo">
+          <span class="error-msg">Por favor, indica tu nombre.</span>
+        </div>
+        <div class="field" id="field-entidad">
+          <label for="entidad" id="labelEntidad">Nombre del AMPA</label>
+          <input type="text" id="entidad" placeholder="Ej. AMPA CEIP Miguel de Cervantes">
+          <span class="error-msg">Indica el nombre de la entidad.</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field" id="field-email">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="correo@ejemplo.com">
+          <span class="error-msg">Introduce un email válido.</span>
+        </div>
+        <div class="field" id="field-telefono">
+          <label for="telefono">Teléfono</label>
+          <input type="tel" id="telefono" placeholder="600 000 000">
+          <span class="error-msg">Introduce un teléfono válido (9 dígitos).</span>
+        </div>
+      </div>
+
+      <div class="field" id="field-programa">
+        <label for="programa">Programa de interés</label>
+        <select id="programa">
+          <option value="">Selecciona una opción</option>
+          <option value="campamentos">Campamentos de verano</option>
+          <option value="extraescolares">Actividades extraescolares</option>
+          <option value="convenio">Gestión integral de convenio</option>
+          <option value="baile">Escuela de baile</option>
+        </select>
+        <span class="error-msg">Selecciona un programa.</span>
+      </div>
+
+      <div class="field" id="field-mensaje">
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" rows="4" placeholder="Cuéntanos más: número de alumnado estimado, centro, franja de edad, plazos..."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Enviar solicitud</button>
+
+      <div class="success-msg" id="successMsg">
+        <span>✓</span>
+        <span>Solicitud recibida correctamente. Nuestro equipo de gestión de convenios se pondrá en contacto en menos de 48h laborables.</span>
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <span class="logo-text">DaSeM<span>.</span></span>
+    <p>Campamentos · Actividades Extraescolares · Escuela de Baile</p>
+    <p>© 2026 DaSeM. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<!-- SELECTOR DE FONDO -->
+<div class="theme-switcher">
+  <div class="theme-panel" id="themePanel">
+    <button class="theme-swatch active" data-swatch="claro" title="Fondo claro (por defecto)" aria-label="Fondo claro"></button>
+    <button class="theme-swatch" data-swatch="azul" title="Fondo azul suave" aria-label="Fondo azul suave"></button>
+    <button class="theme-swatch" data-swatch="verde" title="Fondo verde suave" aria-label="Fondo verde suave"></button>
+    <button class="theme-swatch" data-swatch="mixto" title="Fondo azul-verde suave" aria-label="Fondo azul-verde suave"></button>
+    <button class="theme-swatch" data-swatch="petroleo" title="Fondo verde petróleo suave" aria-label="Fondo verde petróleo suave"></button>
+    <button class="theme-swatch" data-swatch="azul-profundo" title="Fondo azul profundo suave" aria-label="Fondo azul profundo suave"></button>
+    <button class="theme-swatch" data-swatch="menta" title="Fondo verde menta suave" aria-label="Fondo verde menta suave"></button>
+    <button class="theme-swatch" data-swatch="esmeralda" title="Fondo esmeralda-azul suave" aria-label="Fondo esmeralda-azul suave"></button>
+    <button class="theme-swatch" data-swatch="cielo-salvia" title="Fondo cielo y salvia suave" aria-label="Fondo cielo y salvia suave"></button>
+  </div>
+  <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Cambiar color de fondo" title="Cambiar color de fondo">🎨</button>
+</div>
+
+<!-- MODAL DOSSIER -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalBox">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-img">
+      <img id="modalImg" src="" alt="">
+      <span class="doc-badge">Ficha técnica</span>
+    </div>
+    <div class="modal-content">
+      <h3 class="doc-title" id="modalTitle"></h3>
+      <span class="modal-sub" id="modalSub"></span>
+
+      <div class="doc-section">
+        <span class="doc-label">Descripción</span>
+        <p id="modalDesc"></p>
+      </div>
+
+      <div class="doc-section">
+        <span class="doc-label">Metodología y garantías</span>
+        <ul id="modalList"></ul>
+      </div>
+
+      <a href="#contacto" class="modal-cta" id="modalCta">Solicitar dossier completo</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------- Datos de dossier por servicio ----------
+  const serviceData = {
+    campamentos:{
+      title:"Campamentos de Verano",
+      sub:"Servicio AMPA / Colegios · Ref. CV-01",
+      img:"https://images.unsplash.com/photo-1476234251651-f353703a034d?auto=format&fit=crop&w=800&q=80",
+      desc:"Programa de campamento de verano coorganizado con el AMPA o el ayuntamiento, con gestión completa de inscripciones, seguros y memoria justificativa para subvenciones.",
+      items:["Coorganización directa con AMPA y ayuntamientos","Ratio de supervisión ajustado a normativa vigente","Seguro de responsabilidad civil y accidentes","Memoria justificativa entregada al cierre del programa"]
+    },
+    extraescolares:{
+      title:"Actividades Extraescolares",
+      sub:"Servicio AMPA / Colegios · Ref. AE-02",
+      img:"https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
+      desc:"Catálogo de actividades extraescolares integrado en el proyecto educativo del centro, gestionado en coordinación directa con dirección y AMPA.",
+      items:["Catálogo curricular alineado con el centro","Personal titulado y coordinado por DaSeM","Facturación centralizada para el AMPA","Informes periódicos de asistencia y evolución"]
+    },
+    convenios:{
+      title:"Gestión Integral de Convenios",
+      sub:"Servicio AMPA / Colegios · Ref. GC-03",
+      img:"https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=800&q=80",
+      desc:"Un único interlocutor para la totalidad del programa anual del centro, con revisión y renovación del convenio adaptada a la normativa autonómica.",
+      items:["Interlocutor único durante todo el curso","Adaptación a la normativa autonómica vigente","Revisión y renovación anual del convenio","Atención directa a la junta del AMPA"]
+    },
+    ballet:{
+      title:"Ballet",
+      sub:"Escuela de Baile · Ref. BA-01",
+      img:"https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=800&q=80",
+      desc:"Formación en técnica clásica progresiva, impartida por profesorado titulado, con evaluación periódica y muestra pública de fin de curso.",
+      items:["Técnica clásica progresiva por niveles","Profesorado titulado en danza clásica","Evaluación periódica del progreso","Muestra pública de fin de curso"]
+    },
+    contemporaneo:{
+      title:"Danza Contemporánea",
+      sub:"Escuela de Baile · Ref. DC-02",
+      img:"https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=80",
+      desc:"Formación en técnica corporal y expresión escénica en grupos reducidos, organizados por nivel de experiencia previa.",
+      items:["Técnica corporal y expresión escénica","Grupos reducidos por nivel de experiencia","Enfoque en creatividad y composición","Muestra abierta a familias"]
+    },
+    urbano:{
+      title:"Danza Urbana",
+      sub:"Escuela de Baile · Ref. DU-03",
+      img:"https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=800&q=80",
+      desc:"Coreografías actualizadas cada trimestre orientadas a trabajar ritmo, coordinación y trabajo en equipo.",
+      items:["Coreografías renovadas cada trimestre","Trabajo de ritmo, coordinación y equipo","Participación en el festival anual","Grupos organizados por edad y nivel"]
+    }
+  };
+
+  // ---------- Selector de fondo (azul / verde suave) ----------
+  const themeToggleBtn = document.getElementById('themeToggleBtn');
+  const themePanel = document.getElementById('themePanel');
+  const themeSwatches = document.querySelectorAll('.theme-swatch');
+
+  themeToggleBtn.addEventListener('click', () => {
+    themePanel.classList.toggle('open');
+  });
+
+  themeSwatches.forEach(swatch => {
+    swatch.addEventListener('click', () => {
+      const theme = swatch.getAttribute('data-swatch');
+      if(theme === 'claro'){
+        document.body.removeAttribute('data-bg-theme');
+      } else {
+        document.body.setAttribute('data-bg-theme', theme);
+      }
+      themeSwatches.forEach(s => s.classList.remove('active'));
+      swatch.classList.add('active');
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if(!e.target.closest('.theme-switcher')){
+      themePanel.classList.remove('open');
+    }
+  });
+
+  // ---------- Navbar móvil ----------
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  const navOverlay = document.getElementById('navOverlay');
+
+  function closeMenu(){
+    hamburger.classList.remove('active');
+    navLinks.classList.remove('active');
+    navOverlay.classList.remove('active');
+  }
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navLinks.classList.toggle('active');
+    navOverlay.classList.toggle('active');
+  });
+  navOverlay.addEventListener('click', closeMenu);
+  document.querySelectorAll('.nav-link, .cta-btn').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // ---------- Modal ----------
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modalImg = document.getElementById('modalImg');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalSub = document.getElementById('modalSub');
+  const modalDesc = document.getElementById('modalDesc');
+  const modalList = document.getElementById('modalList');
+  const modalClose = document.getElementById('modalClose');
+  const modalCta = document.getElementById('modalCta');
+
+  document.querySelectorAll('[data-modal]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const data = serviceData[btn.getAttribute('data-modal')];
+      if(!data) return;
+      modalImg.src = data.img;
+      modalImg.alt = data.title;
+      modalTitle.textContent = data.title;
+      modalSub.textContent = data.sub;
+      modalDesc.textContent = data.desc;
+      modalList.innerHTML = "";
+      data.items.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        modalList.appendChild(li);
+      });
+      modalOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeModal(){
+    modalOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  modalClose.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', (e) => { if(e.target === modalOverlay) closeModal(); });
+  modalCta.addEventListener('click', closeModal);
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape'){ closeModal(); closeMenu(); } });
+
+  // ---------- Segmento de contacto (AMPA / Colegio-Ayuntamiento / Particular) ----------
+  const segmentBtns = document.querySelectorAll('.segment-btn');
+  const segmentoInput = document.getElementById('segmento');
+  const entidadField = document.getElementById('entidad');
+  const labelEntidad = document.getElementById('labelEntidad');
+
+  const entidadConfig = {
+    ampa:{label:"Nombre del AMPA", placeholder:"Ej. AMPA CEIP Miguel de Cervantes", required:true},
+    institucion:{label:"Nombre del centro o institución", placeholder:"Ej. Ayuntamiento de... / CEIP...", required:true},
+    particular:{label:"Nombre del centro (si procede)", placeholder:"Opcional", required:false}
+  };
+
+  segmentBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      segmentBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const seg = btn.getAttribute('data-segment');
+      segmentoInput.value = seg;
+      const cfg = entidadConfig[seg];
+      labelEntidad.textContent = cfg.label;
+      entidadField.placeholder = cfg.placeholder;
+      setError('field-entidad', false);
+    });
+  });
+
+  // ---------- Formulario de contacto ----------
+  const form = document.getElementById('contactForm');
+  const successMsg = document.getElementById('successMsg');
+
+  function setError(fieldId, hasError){
+    document.getElementById(fieldId).classList.toggle('error', hasError);
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    successMsg.classList.remove('show');
+
+    const nombre = document.getElementById('nombre').value.trim();
+    const entidad = document.getElementById('entidad').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const programa = document.getElementById('programa').value;
+    const segmento = segmentoInput.value;
+
+    let isValid = true;
+
+    const nombreOk = nombre.length >= 3;
+    setError('field-nombre', !nombreOk);
+    if(!nombreOk) isValid = false;
+
+    const entidadRequerida = entidadConfig[segmento].required;
+    const entidadOk = !entidadRequerida || entidad.length >= 2;
+    setError('field-entidad', !entidadOk);
+    if(!entidadOk) isValid = false;
+
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    setError('field-email', !emailOk);
+    if(!emailOk) isValid = false;
+
+    const telLimpio = telefono.replace(/\s|-/g, '');
+    const telOk = /^[0-9]{9}$/.test(telLimpio);
+    setError('field-telefono', !telOk);
+    if(!telOk) isValid = false;
+
+    const programaOk = programa !== "";
+    setError('field-programa', !programaOk);
+    if(!programaOk) isValid = false;
+
+    if(isValid){
+      successMsg.classList.add('show');
+      form.reset();
+      segmentBtns.forEach(b => b.classList.remove('active'));
+      document.querySelector('[data-segment="ampa"]').classList.add('active');
+      segmentoInput.value = 'ampa';
+      labelEntidad.textContent = entidadConfig.ampa.label;
+      entidadField.placeholder = entidadConfig.ampa.placeholder;
+      successMsg.scrollIntoView({behavior:'smooth', block:'center'});
+    } else {
+      const firstError = form.querySelector('.field.error');
+      if(firstError) firstError.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  });
+
+  ['nombre','entidad','email','telefono','programa'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => setError('field-' + id, false));
+  });
+</script>
+</body>
+</html>
