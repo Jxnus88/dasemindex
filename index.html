@@ -510,6 +510,98 @@
   }
   .doc-section ul li::before{content:"—";color:var(--sage);font-weight:700;}
 
+  /* ---------- Horario semanal (mobile-first) ---------- */
+  /* Móvil (por defecto): lista vertical apilada, mucho más legible que una rejilla comprimida */
+  .schedule-mobile{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .sm-row{
+    background:rgba(255,255,255,0.65);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:12px 14px;
+  }
+  .sm-time{
+    display:inline-block;
+    background:var(--navy-deep);
+    color:#fff;
+    font-size:0.72rem;
+    font-weight:700;
+    padding:4px 11px;
+    border-radius:100px;
+    margin-bottom:10px;
+  }
+  .sm-shared-text{
+    font-size:0.9rem;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .sm-groups{display:flex;flex-direction:column;gap:8px;}
+  .sm-group{
+    font-size:0.86rem;
+    color:var(--ink);
+    line-height:1.45;
+    padding-left:11px;
+    border-left:2px solid var(--sage);
+  }
+  .sm-group .sm-label{
+    display:block;
+    font-size:0.68rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.3px;
+    color:var(--sage);
+    margin-bottom:2px;
+  }
+  .sm-group.sm-alt{border-left-color:var(--navy-soft);}
+  .sm-group.sm-alt .sm-label{color:var(--navy-soft);}
+
+  /* Tablet / escritorio: rejilla tipo tabla con celdas fusionadas */
+  .schedule-grid{display:none;}
+
+  @media (min-width:720px){
+    .schedule-mobile{display:none;}
+    .schedule-grid{
+      display:grid;
+      grid-template-columns: 78px repeat(3, 1fr);
+      gap:2px;
+      background:var(--line);
+      border-radius:12px;
+      overflow:hidden;
+      border:1px solid var(--line);
+    }
+  }
+
+  .sg-cell{
+    background:#fff;
+    padding:8px 7px;
+    display:flex;align-items:center;justify-content:center;
+    text-align:center;
+    color:var(--ink);
+    font-size:0.74rem;
+    line-height:1.4;
+  }
+  .sg-cell.sg-head{
+    background:var(--navy-deep);color:#fff;font-weight:700;font-size:0.68rem;
+    letter-spacing:0.2px;text-transform:uppercase;padding:9px 6px;
+  }
+  .sg-cell.sg-time{
+    background:rgba(111,146,132,0.14);color:var(--navy-deep);font-weight:700;font-size:0.7rem;
+  }
+  .sg-cell.sg-highlight{
+    background:rgba(111,146,132,0.08);font-weight:600;
+  }
+
+  /* Línea de tiempo simple (siempre visible, sin alternar con rejilla): para horarios
+     de un único recorrido cronológico como la Noche de Sacos */
+  .timeline-always{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
   .modal-close{
     position:absolute;top:16px;right:16px;z-index:3;width:34px;height:34px;border-radius:50%;
     background:var(--glass-strong);border:1px solid var(--glass-border);color:var(--navy-deep);
@@ -606,6 +698,7 @@
     <div class="nav-links-desktop">
       <a href="#inicio" class="nav-link">Inicio</a>
       <a href="#servicios" class="nav-link">Servicios AMPA/Colegios</a>
+      <a href="#eventos" class="nav-link">Eventos y Talleres</a>
       <a href="#baile" class="nav-link">Escuela de Baile</a>
       <a href="#nosotros" class="nav-link">Sobre Nosotros</a>
       <a href="#contacto" class="nav-link">Contacto</a>
@@ -620,6 +713,7 @@
 <div class="nav-links" id="navLinks">
   <a href="#inicio" class="nav-link">Inicio</a>
   <a href="#servicios" class="nav-link">Servicios AMPA/Colegios</a>
+  <a href="#eventos" class="nav-link">Eventos y Talleres</a>
   <a href="#baile" class="nav-link">Escuela de Baile</a>
   <a href="#nosotros" class="nav-link">Sobre Nosotros</a>
   <a href="#contacto" class="nav-link">Contacto</a>
@@ -681,24 +775,84 @@
   <div class="container">
     <div class="section-head">
       <span class="tag">Servicios para AMPA y colegios</span>
-      <h2>Programas gestionados en convenio directo con tu centro</h2>
-      <p>Diseñamos e implementamos la oferta de campamentos y extraescolares en coordinación permanente con la dirección del centro y la junta directiva del AMPA.</p>
+      <h2>Un catálogo completo gestionado en convenio directo con tu centro</h2>
+      <p>Más de 20 actividades extraescolares organizadas en 5 áreas, programas institucionales de refuerzo (PAE y PROA) y ampliación horaria en junio y septiembre, todo coordinado con la dirección del centro y la junta directiva del AMPA.</p>
     </div>
 
     <div class="cards-grid">
 
       <div class="card">
-        <div class="card-img"><img src="https://images.unsplash.com/photo-1476234251651-f353703a034d?auto=format&fit=crop&w=700&q=80" alt="Grupo de alumnado en actividad organizada al aire libre durante un campamento"></div>
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1476234251651-f353703a034d?auto=format&fit=crop&w=700&q=80" alt="Grupo de alumnado en actividad organizada al aire libre durante un campamento en inglés"></div>
         <div class="card-body">
           <span class="pill pill-camp">Campamentos</span>
-          <h3>Campamentos de Verano</h3>
+          <h3>Campamento en Inglés</h3>
           <ul class="benefit-list">
-            <li>Coorganización directa con AMPA y ayuntamientos</li>
-            <li>Gestión de inscripciones, listas de espera y becas</li>
-            <li>Seguro de responsabilidad civil incluido</li>
-            <li>Memoria justificativa para subvenciones municipales</li>
+            <li>Temática semanal distinta: aventura, arte, ciencia, naturaleza...</li>
+            <li>Multideporte, manualidades, yoga y cine en inglés</li>
+            <li>Grupos por edad: Pequeños, Medianos y Mayores</li>
+            <li>Junio a julio · entrada 8:00-9:00 · salida 14:00-16:00</li>
           </ul>
-          <button class="card-btn" data-modal="campamentos">Ver Programa y Metodología</button>
+          <button class="card-btn" data-modal="campamento_ingles">Ver Programa y Metodología</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=700&q=80" alt="Grupo de alumnado practicando fútbol en un campamento deportivo de verano"></div>
+        <div class="card-body">
+          <span class="pill pill-camp">Campamentos</span>
+          <h3>Campamento Deportivo</h3>
+          <ul class="benefit-list">
+            <li>Fútbol: entrenamientos técnicos y torneos internos</li>
+            <li>Baile moderno: hip-hop, jazz, urbano y coreografías</li>
+            <li>Un día de piscina a la semana</li>
+            <li>Junio a julio · entrada 8:00-9:00 · salida 14:00-16:00</li>
+          </ul>
+          <button class="card-btn" data-modal="campamento_deportivo">Ver Programa y Metodología</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=700&q=80" alt="Monitor de inglés trabajando con alumnado en un aula"></div>
+        <div class="card-body">
+          <span class="pill pill-extra">Extraescolares</span>
+          <h3>Actividades en Inglés</h3>
+          <ul class="benefit-list">
+            <li>Inglés con preparación para exámenes de Cambridge</li>
+            <li>Refuerzo Science en inglés (Natural y Social Science)</li>
+            <li>Arts & Crafts: manualidades y creatividad en inglés</li>
+            <li>Seguimiento constante con el profesorado del centro</li>
+          </ul>
+          <button class="card-btn" data-modal="ingles">Ver Programa y Metodología</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=700&q=80" alt="Alumnado practicando deporte en equipo en el patio del colegio"></div>
+        <div class="card-body">
+          <span class="pill pill-extra">Extraescolares</span>
+          <h3>Actividades Deportivas</h3>
+          <ul class="benefit-list">
+            <li>9 disciplinas: multideporte, fútbol, baloncesto, patinaje...</li>
+            <li>Karate, judo, bádminton, voleibol y yoga</li>
+            <li>Exhibiciones de fin de curso en varias disciplinas</li>
+            <li>Educación en valores: respeto, disciplina y equipo</li>
+          </ul>
+          <button class="card-btn" data-modal="deportivas">Ver Programa y Metodología</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1499892477393-f675706cbe6e?auto=format&fit=crop&w=700&q=80" alt="Taller de manualidades y expresión artística en el aula"></div>
+        <div class="card-body">
+          <span class="pill pill-extra">Extraescolares</span>
+          <h3>Actividades Artísticas</h3>
+          <ul class="benefit-list">
+            <li>Pintura, teatro, baile moderno y circo</li>
+            <li>Música y movimiento, gimnasia rítmica</li>
+            <li>Exhibiciones y muestras finales de curso</li>
+            <li>Fomento de la creatividad y la confianza</li>
+          </ul>
+          <button class="card-btn" data-modal="artisticas">Ver Programa y Metodología</button>
         </div>
       </div>
 
@@ -706,29 +860,149 @@
         <div class="card-img"><img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=700&q=80" alt="Alumnado trabajando con material de robótica educativa en el aula"></div>
         <div class="card-body">
           <span class="pill pill-extra">Extraescolares</span>
-          <h3>Actividades Extraescolares</h3>
+          <h3>Actividades Tecnológicas</h3>
           <ul class="benefit-list">
-            <li>Catálogo curricular alineado con el proyecto educativo</li>
-            <li>Personal docente y monitor titulado y coordinado</li>
-            <li>Facturación centralizada para el AMPA o el centro</li>
-            <li>Informes de asistencia y evolución del alumnado</li>
+            <li>Robótica: construcción y programación de robots</li>
+            <li>Enfoque STEM adaptado a cada edad</li>
+            <li>Pensamiento lógico y resolución de problemas</li>
+            <li>Proyectos prácticos en equipo</li>
           </ul>
-          <button class="card-btn" data-modal="extraescolares">Ver Programa y Metodología</button>
+          <button class="card-btn" data-modal="tecnologicas">Ver Programa y Metodología</button>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-img"><img src="https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=700&q=80" alt="Alumnado practicando deporte en equipo en el patio del colegio"></div>
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=700&q=80" alt="Monitor apoyando a un grupo reducido de alumnado con sus tareas"></div>
         <div class="card-body">
-          <span class="pill pill-camp">Convenios</span>
-          <h3>Gestión Integral de Convenios</h3>
+          <span class="pill pill-extra">Extraescolares</span>
+          <h3>Actividades de Refuerzo</h3>
           <ul class="benefit-list">
-            <li>Un único interlocutor para todo el programa anual</li>
-            <li>Adaptación a la normativa autonómica vigente</li>
-            <li>Revisión y renovación anual del convenio</li>
-            <li>Atención directa a la junta del AMPA</li>
+            <li>Apoyo: refuerzo por asignaturas en grupos pequeños</li>
+            <li>Informe trimestral de evolución a las familias</li>
+            <li>Ludoteca: espacio libre de deberes, juego y lectura</li>
+            <li>Comunicación constante con las familias</li>
           </ul>
-          <button class="card-btn" data-modal="convenios">Ver Programa y Metodología</button>
+          <button class="card-btn" data-modal="refuerzo">Ver Programa y Metodología</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=700&q=80" alt="Alumnado de primaria en una sesión de apoyo escolar"></div>
+        <div class="card-body">
+          <span class="pill pill-camp">Programa institucional</span>
+          <h3>PAE · Acompañamiento y Apoyo Escolar</h3>
+          <ul class="benefit-list">
+            <li>Para alumnado de Primaria en centros públicos</li>
+            <li>Compensación educativa por desventaja socioeducativa</li>
+            <li>Refuerzo de competencias básicas y hábitos de estudio</li>
+            <li>Enfoque en motivación, autoestima e integración</li>
+          </ul>
+          <button class="card-btn" data-modal="pae">Ver Programa y Metodología</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=700&q=80" alt="Orientación académica y apoyo escolar en un centro educativo"></div>
+        <div class="card-body">
+          <span class="pill pill-camp">Programa institucional</span>
+          <h3>PROA · Refuerzo, Orientación y Apoyo</h3>
+          <ul class="benefit-list">
+            <li>Para Primaria y Secundaria en centros públicos</li>
+            <li>Refuerzo en lengua, matemáticas y ciencias</li>
+            <li>Orientación académica y reducción del abandono escolar</li>
+            <li>Inclusión educativa y bienestar emocional</li>
+          </ul>
+          <button class="card-btn" data-modal="proa">Ver Programa y Metodología</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1476234251651-f353703a034d?auto=format&fit=crop&w=700&q=80" alt="Niños en actividades de ocio durante la ampliación horaria de junio"></div>
+        <div class="card-body">
+          <span class="pill pill-camp">Junio y septiembre</span>
+          <h3>Ampliación Horaria</h3>
+          <ul class="benefit-list">
+            <li>De 15:00 a 16:00 o de 15:00 a 17:00</li>
+            <li>Deporte, manualidades y juegos de mesa</li>
+            <li>Cine infantil, mindfulness y juegos cooperativos</li>
+            <li>Flexibilidad para las familias al acabar el curso</li>
+          </ul>
+          <button class="card-btn" data-modal="ampliacion">Ver Programa y Metodología</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EVENTOS Y TALLERES -->
+<section class="section section-alt" id="eventos">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag">Eventos y experiencias especiales</span>
+      <h2>Gymkhanas, fiestas, talleres y experiencias únicas para el centro</h2>
+      <p>Más allá del curso escolar, organizamos eventos temáticos, celebraciones y experiencias especiales para el centro, el AMPA y las familias, con todo el equipo y la logística incluidos.</p>
+    </div>
+
+    <div class="cards-grid">
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1476234251651-f353703a034d?auto=format&fit=crop&w=700&q=80" alt="Niños participando en una gymkhana temática al aire libre"></div>
+        <div class="card-body">
+          <span class="pill pill-extra">Eventos</span>
+          <h3>Gymkhanas Temáticas</h3>
+          <ul class="benefit-list">
+            <li>Gymkhanas de Navidad, Halloween y otras celebraciones</li>
+            <li>Pistas, misterios y búsquedas del tesoro</li>
+            <li>Juegos al aire libre y trabajo en equipo</li>
+            <li>Adaptadas a fechas señaladas del centro</li>
+          </ul>
+          <button class="card-btn" data-modal="gymkhanas">Ver Programa y Metodología</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=700&q=80" alt="Celebración familiar con animación y actividades para niños"></div>
+        <div class="card-body">
+          <span class="pill pill-extra">Eventos</span>
+          <h3>Fiestas y Celebraciones</h3>
+          <ul class="benefit-list">
+            <li>Fiesta de Navidad, Fin de Curso y de la Espuma</li>
+            <li>Castillos inflables, animación y talleres creativos</li>
+            <li>Servicio de bar con opciones para alergias e intolerancias</li>
+            <li>Equipo propio de sonido y cañón de espuma</li>
+          </ul>
+          <button class="card-btn" data-modal="fiestas">Ver Programa y Metodología</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1499892477393-f675706cbe6e?auto=format&fit=crop&w=700&q=80" alt="Taller de manualidades y creatividad para niños"></div>
+        <div class="card-body">
+          <span class="pill pill-extra">Eventos</span>
+          <h3>Talleres</h3>
+          <ul class="benefit-list">
+            <li>Manualidades, pintacaras, globoflexia y pintura</li>
+            <li>Búsqueda del tesoro, escape room y photocall</li>
+            <li>Cuentacuentos, construcción y Noche Mágica</li>
+            <li>Especiales de Día del Padre y Día de la Madre</li>
+          </ul>
+          <button class="card-btn" data-modal="talleres">Ver Programa y Metodología</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=700&q=80" alt="Grupo de monitores acompañando una actividad nocturna infantil"></div>
+        <div class="card-body">
+          <span class="pill pill-camp">Experiencia especial</span>
+          <h3>Noche de Sacos</h3>
+          <ul class="benefit-list">
+            <li>Pernocta en el colegio: un rito de paso hacia la autonomía</li>
+            <li>Búsqueda del tesoro, escape room y espectáculo de magia</li>
+            <li>Vigilancia activa toda la noche + comunicación con familias</li>
+            <li>Viernes 19:00 a sábado 12:00 · 28 €/niño</li>
+          </ul>
+          <button class="card-btn" data-modal="noche_sacos">Ver Programa y Metodología</button>
         </div>
       </div>
 
@@ -737,7 +1011,7 @@
 </section>
 
 <!-- ESCUELA DE BAILE -->
-<section class="section section-alt" id="baile">
+<section class="section" id="baile">
   <div class="container">
     <div class="section-head">
       <span class="tag">Escuela de baile · Línea independiente</span>
@@ -805,14 +1079,14 @@
       </div>
       <div class="about-text">
         <span class="tag">Sobre nosotros</span>
-        <h2>Un equipo especializado en gestión educativa institucional</h2>
-        <p>DaSeM nace para dar respuesta a la necesidad de colegios, AMPA y ayuntamientos de contar con un gestor único, solvente y con experiencia demostrable en la coordinación de programas extraescolares, campamentos y formación en danza.</p>
-        <p>Trabajamos bajo convenio, con protocolos de seguridad auditados y reporting periódico, para que cada centro y cada junta de AMPA tenga visibilidad completa sobre el desarrollo del programa.</p>
+        <h2>Especialistas en servicios personalizados para las AMPA</h2>
+        <p>En DaSeM nos especializamos en ofrecer servicios personalizados para las AMPA, ayudando a gestionar y mejorar sus actividades con eficiencia y compromiso. Nuestro enfoque se basa en la cercanía y una comunicación fluida, asegurando un trato ágil y transparente y permitiéndonos responder con rapidez y eficacia a cualquier necesidad.</p>
+        <p>Contamos con una sólida trayectoria en el sector, lo que nos permite adaptarnos a las necesidades específicas y ofrecer un servicio de calidad que optimiza el funcionamiento de las AMPA y contribuye al bienestar de la comunidad educativa.</p>
         <ul class="about-checks">
-          <li>Convenios activos con centros y AMPA</li>
-          <li>Personal con titulación en tiempo libre</li>
-          <li>Seguros de responsabilidad civil</li>
-          <li>Reporting periódico y memoria anual</li>
+          <li>Coordinadores especializados en necesidades educativas especiales</li>
+          <li>Grupos con un mínimo de 10 alumnos por actividad</li>
+          <li>Exhibiciones y control de asistencia al final de curso</li>
+          <li>Contacto directo por email, teléfono o WhatsApp</li>
         </ul>
       </div>
     </div>
@@ -936,6 +1210,11 @@
         <ul id="modalList"></ul>
       </div>
 
+      <div class="doc-section" id="modalScheduleSection" style="display:none;">
+        <span class="doc-label">Horario semanal orientativo</span>
+        <div id="modalSchedule"></div>
+      </div>
+
       <a href="#contacto" class="modal-cta" id="modalCta">Solicitar dossier completo</a>
     </div>
   </div>
@@ -944,26 +1223,295 @@
 <script>
   // ---------- Datos de dossier por servicio ----------
   const serviceData = {
-    campamentos:{
-      title:"Campamentos de Verano",
-      sub:"Servicio AMPA / Colegios · Ref. CV-01",
+    campamento_ingles:{
+      title:"Campamento en Inglés",
+      sub:"Campamentos · Ref. CAMP-ING",
       img:"https://images.unsplash.com/photo-1476234251651-f353703a034d?auto=format&fit=crop&w=800&q=80",
-      desc:"Programa de campamento de verano coorganizado con el AMPA o el ayuntamiento, con gestión completa de inscripciones, seguros y memoria justificativa para subvenciones.",
-      items:["Coorganización directa con AMPA y ayuntamientos","Ratio de supervisión ajustado a normativa vigente","Seguro de responsabilidad civil y accidentes","Memoria justificativa entregada al cierre del programa"]
+      desc:"Campamento urbano de verano en inglés con una temática distinta cada semana —aventura, arte, ciencia, deportes y naturaleza— en un entorno seguro donde los niños practican inglés, hacen nuevos amigos y ganan confianza.",
+      items:["Multideporte: zumba, atletismo, bádminton, baloncesto, fútbol y tenis","Dinámicas de grupo: gymkhana, escape room y juegos tradicionales","Manualidades: dibujos, pulseras, globoflexia y murales","Juegos refrescantes y juegos de agua","Yoga y relajación después de comer","Cine infantil en inglés, juegos de mesa y legos","Grupos por edad: Pequeños (3-6), Medianos (7-9) y Mayores (10-12)","De junio a julio · entrada 9:00 (desayuno opcional 8:00) · salida 16:00 o 14:00 sin comedor"],
+      schedule:`
+        <div class="schedule-mobile">
+          <div class="sm-row">
+            <span class="sm-time">9:00–9:45</span>
+            <div class="sm-groups">
+              <div class="sm-group"><span class="sm-label">Lunes</span>Warm up + Box</div>
+              <div class="sm-group sm-alt"><span class="sm-label">Martes–Miércoles–Jueves</span>Warm up</div>
+              <div class="sm-group"><span class="sm-label">Viernes</span>Warm up</div>
+            </div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">9:45–10:45</span>
+            <div class="sm-groups">
+              <div class="sm-group"><span class="sm-label">Lunes</span>Rules + Games</div>
+              <div class="sm-group sm-alt"><span class="sm-label">Martes–Miércoles–Jueves</span>Activity 1</div>
+              <div class="sm-group"><span class="sm-label">Viernes</span>Activity 1</div>
+            </div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">10:45–11:15</span>
+            <div class="sm-shared-text">Snack (todos los días)</div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">11:15–12:00</span>
+            <div class="sm-groups">
+              <div class="sm-group"><span class="sm-label">Lunes</span>Refreshing games</div>
+              <div class="sm-group sm-alt"><span class="sm-label">Martes–Miércoles–Jueves</span>Refreshing games</div>
+              <div class="sm-group"><span class="sm-label">Viernes</span>Water games</div>
+            </div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">12:00–12:45</span>
+            <div class="sm-groups">
+              <div class="sm-group"><span class="sm-label">Lunes</span>Craft</div>
+              <div class="sm-group sm-alt"><span class="sm-label">Martes–Miércoles–Jueves</span>Craft</div>
+              <div class="sm-group"><span class="sm-label">Viernes</span>Water games (continúa)</div>
+            </div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">12:45–13:20</span>
+            <div class="sm-groups">
+              <div class="sm-group"><span class="sm-label">Lunes</span>Activity 2</div>
+              <div class="sm-group sm-alt"><span class="sm-label">Martes–Miércoles–Jueves</span>Activity 2</div>
+              <div class="sm-group"><span class="sm-label">Viernes</span>Final activity</div>
+            </div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">13:20–14:00</span>
+            <div class="sm-shared-text">Evolution (todos los días)</div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">14:00–16:00</span>
+            <div class="sm-shared-text">Lunch time + Cinema (todos los días)</div>
+          </div>
+        </div>
+
+        <div class="schedule-grid">
+          <div class="sg-cell sg-head"></div>
+          <div class="sg-cell sg-head">Lunes</div>
+          <div class="sg-cell sg-head">Martes–Miércoles–Jueves</div>
+          <div class="sg-cell sg-head">Viernes</div>
+
+          <div class="sg-cell sg-time">9:00–9:45</div>
+          <div class="sg-cell">Warm up + Box</div>
+          <div class="sg-cell">Warm up</div>
+          <div class="sg-cell">Warm up</div>
+
+          <div class="sg-cell sg-time">9:45–10:45</div>
+          <div class="sg-cell">Rules + Games</div>
+          <div class="sg-cell">Activity 1</div>
+          <div class="sg-cell">Activity 1</div>
+
+          <div class="sg-cell sg-time">10:45–11:15</div>
+          <div class="sg-cell sg-highlight" style="grid-column: span 3;">Snack</div>
+
+          <div class="sg-cell sg-time">11:15–12:00</div>
+          <div class="sg-cell">Refreshing games</div>
+          <div class="sg-cell">Refreshing games</div>
+          <div class="sg-cell sg-highlight" style="grid-row: span 2;">Water games</div>
+
+          <div class="sg-cell sg-time">12:00–12:45</div>
+          <div class="sg-cell">Craft</div>
+          <div class="sg-cell">Craft</div>
+
+          <div class="sg-cell sg-time">12:45–13:20</div>
+          <div class="sg-cell">Activity 2</div>
+          <div class="sg-cell">Activity 2</div>
+          <div class="sg-cell sg-highlight">Final activity</div>
+
+          <div class="sg-cell sg-time">13:20–14:00</div>
+          <div class="sg-cell" style="grid-column: span 3;">Evolution</div>
+
+          <div class="sg-cell sg-time">14:00–16:00</div>
+          <div class="sg-cell sg-highlight" style="grid-column: span 3;">Lunch time + Cinema</div>
+        </div>
+      `
     },
-    extraescolares:{
-      title:"Actividades Extraescolares",
-      sub:"Servicio AMPA / Colegios · Ref. AE-02",
-      img:"https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
-      desc:"Catálogo de actividades extraescolares integrado en el proyecto educativo del centro, gestionado en coordinación directa con dirección y AMPA.",
-      items:["Catálogo curricular alineado con el centro","Personal titulado y coordinado por DaSeM","Facturación centralizada para el AMPA","Informes periódicos de asistencia y evolución"]
-    },
-    convenios:{
-      title:"Gestión Integral de Convenios",
-      sub:"Servicio AMPA / Colegios · Ref. GC-03",
+    campamento_deportivo:{
+      title:"Campamento Deportivo: Fútbol y Baile Moderno",
+      sub:"Campamentos · Ref. CAMP-DEP",
       img:"https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=800&q=80",
-      desc:"Un único interlocutor para la totalidad del programa anual del centro, con revisión y renovación del convenio adaptada a la normativa autonómica.",
-      items:["Interlocutor único durante todo el curso","Adaptación a la normativa autonómica vigente","Revisión y renovación anual del convenio","Atención directa a la junta del AMPA"]
+      desc:"Campamento de verano deportivo dirigido por entrenadores y profesores especializados en fútbol y baile moderno, que fomenta el trabajo en equipo, la disciplina, la creatividad y el desarrollo personal en un ambiente seguro y divertido.",
+      items:["Fútbol: entrenamientos técnicos, partidos y torneos internos","Baile moderno: hip-hop, jazz, urbano, coreografías grupales y presentaciones","Dinámicas de grupo: gymkhanas, escape rooms, manualidades y juegos tradicionales","Un día de piscina a la semana","De junio a julio · entrada 9:00 (desayuno opcional 8:00) · salida 16:00 o 14:00 sin comedor"],
+      schedule:`
+        <div class="schedule-mobile">
+          <div class="sm-row">
+            <span class="sm-time">9:00–12:00</span>
+            <div class="sm-groups">
+              <div class="sm-group"><span class="sm-label">Fútbol (Lunes a Jueves)</span>Entrenamientos técnicos + Estiramientos + Juegos tácticos + Habilidades emocionales y sociales + Partidos</div>
+              <div class="sm-group sm-alt"><span class="sm-label">Baile (Lunes a Jueves)</span>Clases de bailes de diferentes estilos + Técnicas específicas + Coordinación y flexibilidad + Expresión corporal</div>
+              <div class="sm-group"><span class="sm-label">Viernes</span>Torneos + Coreografías</div>
+            </div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">12:00–12:30</span>
+            <div class="sm-shared-text">Almuerzo (todos los días)</div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">12:30–13:30</span>
+            <div class="sm-groups">
+              <div class="sm-group"><span class="sm-label">Lunes a Jueves</span>Manualidades + Juegos de Agua + Juegos + Dinámicas de grupos</div>
+              <div class="sm-group sm-alt"><span class="sm-label">Viernes</span>Piscina</div>
+            </div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">13:30–14:00</span>
+            <div class="sm-shared-text">Estiramientos + Descanso + Recuperación (todos los días)</div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">14:00–16:00</span>
+            <div class="sm-shared-text">Comida + Cine (todos los días)</div>
+          </div>
+        </div>
+
+        <div class="schedule-grid">
+          <div class="sg-cell sg-head"></div>
+          <div class="sg-cell sg-head">Fútbol (L–J)</div>
+          <div class="sg-cell sg-head">Baile (L–J)</div>
+          <div class="sg-cell sg-head">Viernes</div>
+
+          <div class="sg-cell sg-time">9:00–12:00</div>
+          <div class="sg-cell">Entrenamientos técnicos + Estiramientos + Juegos tácticos + Habilidades emocionales y sociales + Partidos</div>
+          <div class="sg-cell">Clases de bailes de diferentes estilos + Técnicas específicas + Coordinación y flexibilidad + Expresión corporal</div>
+          <div class="sg-cell sg-highlight">Torneos + Coreografías</div>
+
+          <div class="sg-cell sg-time">12:00–12:30</div>
+          <div class="sg-cell" style="grid-column: span 3;">Almuerzo</div>
+
+          <div class="sg-cell sg-time">12:30–13:30</div>
+          <div class="sg-cell" style="grid-column: span 2;">Manualidades + Juegos de Agua + Juegos + Dinámicas de grupos</div>
+          <div class="sg-cell sg-highlight">Piscina</div>
+
+          <div class="sg-cell sg-time">13:30–14:00</div>
+          <div class="sg-cell" style="grid-column: span 3;">Estiramientos + Descanso + Recuperación</div>
+
+          <div class="sg-cell sg-time">14:00–16:00</div>
+          <div class="sg-cell sg-highlight" style="grid-column: span 3;">Comida + Cine</div>
+        </div>
+      `
+    },
+    ingles:{
+      title:"Actividades en Inglés",
+      sub:"Extraescolares · Ref. AE-ING",
+      img:"https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80",
+      desc:"Extraescolares impartidas en inglés que combinan el aprendizaje del idioma con contenidos curriculares, artísticos y científicos, con seguimiento constante junto al profesorado del centro.",
+      items:["Inglés — preparación para los exámenes oficiales de Cambridge","Refuerzo Science — Natural y Social Science con vocabulario científico en inglés","Arts & Crafts — manualidades y proyectos creativos en inglés"]
+    },
+    deportivas:{
+      title:"Actividades Deportivas",
+      sub:"Extraescolares · Ref. AE-DEP",
+      img:"https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=800&q=80",
+      desc:"Catálogo de iniciación y perfeccionamiento deportivo que desarrolla habilidades motrices, valores de equipo y disciplina personal en un entorno seguro y adaptado a cada edad.",
+      items:["Multideporte — iniciación a las habilidades motrices básicas","Patinaje — con exhibición de fin de curso","Fútbol — técnica, trabajo en equipo y valores","Baloncesto — tiro, estrategia y toma de decisiones","Karate y Judo — disciplina, concentración y autocontrol","Bádminton y Voleibol — agilidad, coordinación y táctica","Yoga — flexibilidad, calma y concentración"]
+    },
+    artisticas:{
+      title:"Actividades Artísticas",
+      sub:"Extraescolares · Ref. AE-ART",
+      img:"https://images.unsplash.com/photo-1499892477393-f675706cbe6e?auto=format&fit=crop&w=800&q=80",
+      desc:"Programas de expresión artística y corporal que fomentan la creatividad, la confianza y el trabajo en equipo, con exhibiciones y muestras finales de curso.",
+      items:["Pintura — acuarela, óleo, acrílico y dibujo","Teatro — expresión, improvisación y hablar en público","Baile Moderno — coreografías, con exhibición de fin de curso","Música y movimiento — ritmo, entonación y expresión corporal","Gimnasia Rítmica — cintas, pelotas y aros, con exhibición final","Circo — malabares, equilibrio y muestra final de espectáculo"]
+    },
+    tecnologicas:{
+      title:"Actividades Tecnológicas",
+      sub:"Extraescolares · Ref. AE-TEC",
+      img:"https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
+      desc:"Iniciación a la tecnología y la ingeniería a través de proyectos prácticos de construcción y programación de robots, con un enfoque STEM adaptado a cada edad.",
+      items:["Robótica — construcción y programación de robots","Pensamiento lógico y resolución de problemas","Proyectos STEM en equipo adaptados a cada edad"]
+    },
+    refuerzo:{
+      title:"Actividades de Refuerzo",
+      sub:"Extraescolares · Ref. AE-REF",
+      img:"https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80",
+      desc:"Espacios de apoyo escolar y ocio educativo flexible, con seguimiento personalizado y comunicación constante con las familias.",
+      items:["Apoyo — refuerzo por asignaturas en grupos pequeños","Informe trimestral de evolución académica a las familias","Ludoteca — espacio libre para deberes, juego y lectura"]
+    },
+    pae:{
+      title:"PAE · Acompañamiento y Apoyo Escolar",
+      sub:"Programa institucional · Ref. PAE-01",
+      img:"https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=800&q=80",
+      desc:"Programa dirigido a alumnado de Educación Primaria en centros públicos en situación de desventaja socioeducativa y cultural, con un entorno de aprendizaje adaptado y seguimiento personalizado.",
+      items:["Mejora del rendimiento académico y las competencias básicas","Fomento de hábitos de estudio y autonomía en el aprendizaje","Refuerzo de la motivación y la autoestima del alumnado","Destinatarios: alumnado de Primaria en centros públicos con desventaja socioeducativa"]
+    },
+    proa:{
+      title:"PROA · Refuerzo, Orientación y Apoyo",
+      sub:"Programa institucional · Ref. PROA-01",
+      img:"https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80",
+      desc:"Iniciativa educativa para centros de Educación Primaria y Secundaria que combina refuerzo académico en lengua, matemáticas y ciencias con orientación y actividades de desarrollo personal y social.",
+      items:["Refuerzo en lengua, matemáticas y ciencias","Orientación académica y reducción del abandono escolar","Fomento de la inclusión educativa y el bienestar emocional","Destinatarios: Primaria y Secundaria en centros públicos con desventaja socioeducativa"]
+    },
+    ampliacion:{
+      title:"Ampliación Horaria",
+      sub:"Junio y septiembre · Ref. AH-01",
+      img:"https://images.unsplash.com/photo-1476234251651-f353703a034d?auto=format&fit=crop&w=800&q=80",
+      desc:"Cobertura horaria adicional de 15:00 a 16:00 o de 15:00 a 17:00 en junio y septiembre, con un programa de actividades deportivas, creativas y de relajación pensado para dar flexibilidad a las familias.",
+      items:["Actividades deportivas al aire libre y juegos cooperativos","Manualidades, juegos de mesa y actividades de movimiento","Cine infantil y sesiones de relajación y mindfulness"]
+    },
+    gymkhanas:{
+      title:"Gymkhanas Temáticas",
+      sub:"Eventos y Experiencias · Ref. EV-GYM",
+      img:"https://images.unsplash.com/photo-1476234251651-f353703a034d?auto=format&fit=crop&w=800&q=80",
+      desc:"Gymkhanas temáticas diseñadas para fechas especiales como Navidad, Halloween u otras celebraciones, que combinan diversión, misterio y retos para que los niños se conviertan en protagonistas de historias mágicas.",
+      items:["Juegos al aire libre y pistas por resolver","Búsqueda del tesoro y enigmas por equipos","Dinámicas que fomentan el trabajo en equipo","Adaptadas a Navidad, Halloween y otras celebraciones"]
+    },
+    fiestas:{
+      title:"Fiestas y Celebraciones",
+      sub:"Eventos y Experiencias · Ref. EV-FIE",
+      img:"https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=800&q=80",
+      desc:"Celebraciones para toda la familia, adaptadas a todas las edades, con castillos inflables, actividades al aire libre, talleres creativos y animación. Nos ocupamos también de la comida, con servicio de bar para todos los gustos y necesidades dietéticas.",
+      items:["Fiesta de Navidad, Fiesta de Fin de Curso y Fiesta de la Espuma","Castillos inflables, animación y talleres creativos","Fiestas temáticas personalizadas","Servicio de bar con opciones para alergias e intolerancias","¡Contamos con equipo propio de sonido con altavoces profesionales y cañón de espuma!"]
+    },
+    talleres:{
+      title:"Talleres",
+      sub:"Eventos y Experiencias · Ref. EV-TAL",
+      img:"https://images.unsplash.com/photo-1499892477393-f675706cbe6e?auto=format&fit=crop&w=800&q=80",
+      desc:"Espacios para explorar, crear y aprender más allá del horario escolar, bajo la supervisión de profesionales y con una gran variedad de propuestas para todas las edades e intereses.",
+      items:["Manualidades, pintacaras, globoflexia y pintura","Búsqueda del tesoro y escape room","Photocall y cuentacuentos","Construcción y Noche Mágica","Especiales de Día del Padre y Día de la Madre"]
+    },
+    noche_sacos:{
+      title:"Noche de Sacos",
+      sub:"Experiencia especial · Ref. EV-NDS · 28 €/niño",
+      img:"https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80",
+      desc:"Más que una pernocta: un rito de paso hacia la autonomía. Los alumnos descubren su colegio desde una perspectiva mágica, sin uniformes, sin libros y bajo la luz de las linternas.",
+      items:["Sentido de pertenencia: el colegio como espacio afectivo de aventura","Autonomía segura: primera experiencia de independencia en un entorno conocido","Desconexión digital: convivencia real, juegos de linterna e historias","Gestión emocional de nuevos retos (miedo a la oscuridad, distancia familiar)","Conciliación para las familias, con la garantía de un equipo cualificado","Valores de convivencia: respeto, tolerancia y apoyo mutuo","Organización: gestión de alergias, ratios por edad y vigilancia activa toda la noche","Duración: viernes 19:00 a sábado 12:00 · Precio: 28 €/niño"],
+      schedule:`
+        <div class="timeline-always">
+          <div class="sm-row">
+            <span class="sm-time">Viernes 19:00</span>
+            <div class="sm-shared-text">Check-in de aventureros: recepción y acomodación en el gimnasio</div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">Viernes 19:30</span>
+            <div class="sm-shared-text">Juegos rompehielo + búsqueda del tesoro "En busca del amuleto perdido": mapa antiguo, pistas por el colegio y un misterio por resolver antes de que caiga el sol</div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">Viernes 21:00</span>
+            <div class="sm-shared-text">Cena: perrito caliente o sándwich mixto y yogurt</div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">Viernes 22:00</span>
+            <div class="sm-shared-text">Actividades nocturnas: juegos cooperativos, historias y espectáculos de magia</div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">Sábado 9:00</span>
+            <div class="sm-shared-text">Desayuno: galletas, cereales, bollería, leche y zumos</div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">Sábado 10:00</span>
+            <div class="sm-shared-text">Recogida de sacos</div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">Sábado 10:30</span>
+            <div class="sm-shared-text">Escape room: pruebas físicas y de lógica para "desbloquear" la puerta de salida y conseguir el diploma de Superviviente</div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">Sábado 11:45</span>
+            <div class="sm-shared-text">Almuerzo de despedida y entrega de diplomas</div>
+          </div>
+          <div class="sm-row">
+            <span class="sm-time">Sábado 12:00</span>
+            <div class="sm-shared-text">Salida</div>
+          </div>
+        </div>
+      `
     },
     ballet:{
       title:"Ballet",
@@ -1045,6 +1593,8 @@
   const modalList = document.getElementById('modalList');
   const modalClose = document.getElementById('modalClose');
   const modalCta = document.getElementById('modalCta');
+  const modalScheduleSection = document.getElementById('modalScheduleSection');
+  const modalSchedule = document.getElementById('modalSchedule');
 
   document.querySelectorAll('[data-modal]').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1061,6 +1611,13 @@
         li.textContent = item;
         modalList.appendChild(li);
       });
+      if(data.schedule){
+        modalSchedule.innerHTML = data.schedule;
+        modalScheduleSection.style.display = "";
+      } else {
+        modalSchedule.innerHTML = "";
+        modalScheduleSection.style.display = "none";
+      }
       modalOverlay.classList.add('active');
       document.body.style.overflow = 'hidden';
     });
